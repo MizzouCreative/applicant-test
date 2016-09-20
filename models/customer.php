@@ -57,10 +57,16 @@ class Customer{
     }
 
     public static function getById($id){
-      $list;
+        /**
+         * List needs to be initialized to SOMETHING
+         */
+        $list;
       $db = Db::getInstance();
-      
-      $req = $db->query("SELECT * FROM customer where CustomerID = '$id' ");
+
+        /**
+         * Need to use PDO:prepare + PDO::bindParam
+         */
+        $req = $db->query("SELECT * FROM customer where CustomerID = '$id' ");
 
       // we create a list of Post objects from the database results
       foreach($req->fetchAll() as $post) {
@@ -85,20 +91,30 @@ class Customer{
     public static function insert($Customer)
     {
     	$db = Db::getInstance();
-    	$req = $db->exec("INSERT INTO customer ( CustomerName,CustomerTitle,Address1,City,StateID,CountryID,PostalCode, Email,CreateBy,ModifyBy, IsActive) VALUES ('" . $Customer-> name . "','"  . $Customer-> title . "','" . $Customer-> address . "','" . $Customer-> city . "'," . $Customer-> stateID . ", " . $Customer-> countryID . ", " . $Customer-> postalCode . ", '" . $Customer-> email . "', '" . $Customer-> createdBy . "','". $Customer-> createdBy ."',1)");
+        /**
+         * Need to use PDO:prepare + PDO::bindParam
+         * Shouldnt we have a check to see if the insert was successful?
+         */
+        $req = $db->exec("INSERT INTO customer ( CustomerName,CustomerTitle,Address1,City,StateID,CountryID,PostalCode, Email,CreateBy,ModifyBy, IsActive) VALUES ('" . $Customer-> name . "','"  . $Customer-> title . "','" . $Customer-> address . "','" . $Customer-> city . "'," . $Customer-> stateID . ", " . $Customer-> countryID . ", " . $Customer-> postalCode . ", '" . $Customer-> email . "', '" . $Customer-> createdBy . "','". $Customer-> createdBy ."',1)");
       
     }
 
     public static function delete($CustID)
     {
-      $db = Db::getInstance();
-      $req = $db->exec("UPDATE customer SET IsActive=0 WHERE CustomerID = '$CustID'");
+        $db = Db::getInstance();
+        /**
+         * Need to use PDO:prepare + PDO::bindParam
+         */
+        $req = $db->exec("UPDATE customer SET IsActive=0 WHERE CustomerID = '$CustID'");
     }
 
     public static function update($Customer)
     {
-      $db = Db::getInstance();
-      $req = $db->exec("UPDATE customer SET CustomerName='" . $Customer-> name . "',CustomerTitle= '"  . $Customer-> title . "',Address1 = '" . $Customer-> address . "',City='" . $Customer-> city . "',StateID=" . $Customer-> stateID . ", CountryID=" . $Customer-> countryID . ",PostalCode=" . $Customer-> postalCode . ",Email= '" . $Customer-> email . "',ModifyBy= '" . $Customer-> modifiedBy . "'  WHERE CustomerID = '$Customer->id'");
+        $db = Db::getInstance();
+        /**
+         * Need to use PDO:prepare + PDO::bindParam
+         */
+        $req = $db->exec("UPDATE customer SET CustomerName='" . $Customer-> name . "',CustomerTitle= '"  . $Customer-> title . "',Address1 = '" . $Customer-> address . "',City='" . $Customer-> city . "',StateID=" . $Customer-> stateID . ", CountryID=" . $Customer-> countryID . ",PostalCode=" . $Customer-> postalCode . ",Email= '" . $Customer-> email . "',ModifyBy= '" . $Customer-> modifiedBy . "'  WHERE CustomerID = '$Customer->id'");
     }
 }
 ?>
